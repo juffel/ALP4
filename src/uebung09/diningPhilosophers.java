@@ -2,15 +2,16 @@ package uebung09;
 
 public class diningPhilosophers {
 	
-	/**
-	 * Betreut den Monitor und startet/beendet die Philosophenthreads
-	 * @author julian
-	 *
-	 */
 	public static class Philomonitor {
+
+		public void getForks(int id) {
+			
+		}
 		
-		Monitor monitor;
-		
+		public void releaseForks(int id) {
+			
+		}
+
 	}
 	
 	public class Philosopher implements Runnable {
