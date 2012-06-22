@@ -32,7 +32,12 @@ public class diningPhilosophers {
 	 */
 	public class Philosopher implements Runnable {
 		
+		final int ID;
 		Random rnd = new Random();
+		
+		public Philosopher(int ID) {
+			this.ID = ID;
+		}
 		
 		public void run() {
 			
