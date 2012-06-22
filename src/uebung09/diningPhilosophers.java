@@ -6,11 +6,32 @@ public class diningPhilosophers {
 	
 	public static class Philomonitor {
 
+		// true == fork on table | false == fork taken
+		private static boolean[] forks = {true, true, true, true, true};
+		
 		/** 
 		 * zwei Gabeln nehmen
 		 * @param id
 		 */
-		synchronized public static void getForks(int id) {
+		synchronized public static void getForks(int ID) {
+			
+			// um Deadlocks zu vermeiden wird einer der Philosophen zuerst nach der rechten Gabel greifen,
+			// die restlichen Philosopen zuerst nach der rechten
+			if(ID==0) {
+				getRightFork(ID);
+				getLeftFork(ID);				
+			} else {
+				getLeftFork(ID);
+				getRightFork(ID);				
+			}
+			
+		}
+		
+		private static void getLeftFork(int ID) {
+			
+		}
+		
+		private static void getRightFork(int ID) {
 			
 		}
 		
@@ -18,8 +39,10 @@ public class diningPhilosophers {
 		 * zwei Gabeln wieder freigeben
 		 * @param id
 		 */
-		synchronized public static void releaseForks(int id) {
-			
+		synchronized public static void releaseForks(int ID) {
+			// TODO evtl. abfragen, ob man die Gabeln überhaupt hat
+			forks[(ID-1)%5]=true;
+			forks[ID%5]=true;
 		}
 
 	}
