@@ -46,7 +46,7 @@ public class Philosopher implements Runnable {
 	}
 
 	private void eat() {
-		does("holt sich Gabeln");
+		does("wartet auf Gabeln");
 		phimo.getForks(ID);
 		int tmp = rnd.nextInt(10000);
 		says("Guten Appetit! ("+tmp+")");

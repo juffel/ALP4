@@ -48,8 +48,9 @@ public class Philomonitor {
 			
 				if(forks[ID] < 0) {
 					forks[ID] = ID;
+					return;
 				} else {
-					philoThreads[ID].wait();
+					wait();
 				}
 				
 			} catch (InterruptedException e) {
@@ -60,8 +61,21 @@ public class Philomonitor {
 	
 	synchronized private void getRightFork(int ID) {
 		
-		getLeftFork((ID+4)%5);
-		
+		while(true) {
+			
+			try {
+			
+				if(forks[(ID+4)%5] < 0) {
+					forks[(ID+4)%5] = ID;
+					return;
+				} else {
+					wait();
+				}
+				
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/** 
@@ -71,12 +85,14 @@ public class Philomonitor {
 	synchronized public void releaseForks(int ID) {
 		
 		// Prüfen, ob der Thread mit ID überhaupt die Gabeln besitzt
-		if(forks[ID] != ID || forks[(ID+1)%5] != ID) {
-			System.out.println("Illegal forkRelease!");
+		if(forks[ID] != ID || forks[(ID+4)%5] != ID) {
+			System.out.println("Illegal forkRelease by "+ID);
+			System.out.println("left: "+forks[ID]+", right: "+forks[(ID+4)%5]);
 			return;
 		}
 		
 		forks[ID] = -1;
-		forks[(ID+1)%5] = -1;
+		forks[(ID+4)%5] = -1;
+		notify();
 	}
 }
