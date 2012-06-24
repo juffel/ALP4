@@ -7,7 +7,9 @@ public class diningPhilosophers {
 		public static Thread[] philoThreads = new Thread[5];
 		
 		// true == fork on table | false == fork taken
-		private static boolean[] forks = {true, true, true, true, true};
+		// private static boolean[] forks = {true, true, true, true, true};
+		/** in forks steht, welche Gabel wer hat; ohne Besitzer hat eine Gabel den Wert -1 */
+		private static int[] forks = {-1, -1, -1, -1, -1};
 		
 		public Philomonitor() {
 			
@@ -44,8 +46,8 @@ public class diningPhilosophers {
 				
 				try {
 				
-					if(forks[ID]) {
-						forks[ID] = false;
+					if(forks[ID] < 0) {
+						forks[ID] = ID;
 					} else {
 						philoThreads[ID].wait();
 					}
@@ -67,9 +69,15 @@ public class diningPhilosophers {
 		 * @param id
 		 */
 		synchronized public static void releaseForks(int ID) {
-			// TODO evtl. abfragen, ob man die Gabeln überhaupt hat
-			forks[(ID-1)%5]=true;
-			forks[ID%5]=true;
+			
+			// Prüfen, ob der Thread mit ID überhaupt die Gabeln besitzt
+			if(forks[ID] != ID || forks[(ID+1)%5] != ID) {
+				System.out.println("Illegal forkRelease!");
+				return;
+			}
+			
+			forks[ID] = -1;
+			forks[(ID+1)%5] = -1;
 		}
 	}
 }
