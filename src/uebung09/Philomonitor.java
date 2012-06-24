@@ -93,6 +93,6 @@ public class Philomonitor {
 		
 		forks[ID] = -1;
 		forks[(ID+4)%5] = -1;
-		notify();
+		notifyAll();
 	}
 }
