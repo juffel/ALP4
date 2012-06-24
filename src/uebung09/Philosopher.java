@@ -2,7 +2,7 @@ package uebung09;
 
 import java.util.Random;
 
-import uebung09.diningPhilosophers.Philomonitor;
+import uebung09.Philomonitor;
 
 /**
  * Philosophen essen und pausieren(philosophieren) in unregelmäßigen
@@ -12,10 +12,12 @@ import uebung09.diningPhilosophers.Philomonitor;
 public class Philosopher implements Runnable {
 	
 	private final int ID;
+	Philomonitor phimo;
 	Random rnd = new Random();
 	
-	public Philosopher(int ID) {
+	public Philosopher(int ID, Philomonitor phimo) {
 		this.ID = ID;
+		this.phimo = phimo;
 	}
 	
 	public void run() {
@@ -45,7 +47,7 @@ public class Philosopher implements Runnable {
 
 	private void eat() {
 		does("holt sich Gabeln");
-		Philomonitor.getForks(ID);
+		phimo.getForks(ID);
 		int tmp = rnd.nextInt(10000);
 		says("Guten Appetit! ("+tmp+")");
 		
@@ -58,7 +60,7 @@ public class Philosopher implements Runnable {
 			catch(InterruptedException e) {e.printStackTrace();}
 		
 		}
-		Philomonitor.releaseForks(ID);
+		phimo.releaseForks(ID);
 		says("Yummy! Das war lecker :D");
 		
 	}
