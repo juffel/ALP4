@@ -2,6 +2,11 @@ package uebung09;
 
 public class diningPhilosophers {
 	
+	public static void main(String[] args) {
+		for(int i=0; i<5; i++)
+			Philomonitor.philoThreads[i].run();
+	}
+	
 	public static class Philomonitor {
 		
 		public static Thread[] philoThreads = new Thread[5];
@@ -60,7 +65,7 @@ public class diningPhilosophers {
 		
 		synchronized private static void getRightFork(int ID) {
 			
-			getLeftFork((ID-1)%5);
+			getLeftFork((ID+4)%5);
 			
 		}
 		

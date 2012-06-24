@@ -8,7 +8,6 @@ import uebung09.diningPhilosophers.Philomonitor;
  * Philosophen essen und pausieren(philosophieren) in unregelmäßigen
  * Abständen
  * @author julian
- *
  */
 public class Philosopher implements Runnable {
 	
@@ -33,8 +32,10 @@ public class Philosopher implements Runnable {
 		for(int i=0; i<10; i++) {
 			
 			try {
-				does("ergründet die Geheimnisse des Lebens");
-				wait(rnd.nextLong());
+				int tmp = rnd.nextInt(10000);
+				does("ergründet die Geheimnisse des Lebens ("+tmp+")");
+				Thread.sleep(tmp);
+				return;
 			}
 			catch(InterruptedException e) {e.printStackTrace();}
 		}
@@ -45,12 +46,13 @@ public class Philosopher implements Runnable {
 	private void eat() {
 		does("holt sich Gabeln");
 		Philomonitor.getForks(ID);
-		says("Guten Appetit!");
+		int tmp = rnd.nextInt(10000);
+		says("Guten Appetit! ("+tmp+")");
 		
 		while(true) {
 			
 			try {
-				wait(rnd.nextLong());
+				Thread.sleep(tmp);
 				break;
 			}
 			catch(InterruptedException e) {e.printStackTrace();}
@@ -62,7 +64,7 @@ public class Philosopher implements Runnable {
 	}
 	
 	private void says(String str) {
-		System.out.println(ID+": "+str);
+		System.out.println(ID+": \""+str+"\"");
 	}
 	private void does(String str) {
 		System.out.println(ID+" "+str);
