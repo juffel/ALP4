@@ -1,7 +1,5 @@
 package uebung09;
 
-import java.util.Random;
-
 public class diningPhilosophers {
 	
 	public static class Philomonitor {
@@ -32,19 +30,35 @@ public class diningPhilosophers {
 			// die restlichen Philosopen zuerst nach der rechten
 			if(ID==0) {
 				getRightFork(ID);
-				getLeftFork(ID);				
+				getLeftFork(ID);
 			} else {
 				getLeftFork(ID);
-				getRightFork(ID);				
+				getRightFork(ID);
 			}
-			
+		
 		}
 		
-		private static void getLeftFork(int ID) {
+		synchronized private static void getLeftFork(int ID) {
 			
+			while(true) {
+				
+				try {
+				
+					if(forks[ID]) {
+						forks[ID] = false;
+					} else {
+						philoThreads[ID].wait();
+					}
+					
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		
-		private static void getRightFork(int ID) {
+		synchronized private static void getRightFork(int ID) {
+			
+			getLeftFork((ID-1)%5);
 			
 		}
 		
